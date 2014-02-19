@@ -1,0 +1,64 @@
+﻿@model Store.Models.Order
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Order</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CustomerId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CustomerId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Date)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Date)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.PaypalInvoiceId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PaypalInvoiceId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ShippingMethod)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ShippingMethod)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ShippingTotal)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ShippingTotal)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.HSTTotal)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.HSTTotal)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.OrderTotal)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.OrderTotal)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

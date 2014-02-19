@@ -1,0 +1,9 @@
+﻿CREATE TABLE [dbo].[Products]
+(
+	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWSEQUENTIALID(), 
+    [Name] VARCHAR(100) NOT NULL, 
+    [Description] VARCHAR(MAX) NULL, 
+    [Stock] INT NOT NULL, 
+    [PhotoUrl] VARCHAR(MAX) NOT NULL, 
+    [Price] DECIMAL(16, 2) NOT NULL
+)
