@@ -28,5 +28,6 @@ namespace Store.Models
         public DbSet<OrderLineItem> OrderLineItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ShippingInformation> ShippingInformations { get; set; }
     }
 }

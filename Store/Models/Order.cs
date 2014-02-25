@@ -23,11 +23,12 @@ namespace Store.Models
         public System.Guid CustomerId { get; set; }
         public System.DateTime Date { get; set; }
         public Nullable<System.Guid> PaypalInvoiceId { get; set; }
-        public Nullable<int> ShippingMethod { get; set; }
         public Nullable<decimal> ShippingTotal { get; set; }
         public Nullable<decimal> HSTTotal { get; set; }
         public Nullable<decimal> OrderTotal { get; set; }
+        public decimal OrderSubtotal { get; set; }
     
         public virtual ICollection<OrderLineItem> OrderLineItems { get; set; }
+        public virtual ShippingInformation ShippingInformation { get; set; }
     }
 }

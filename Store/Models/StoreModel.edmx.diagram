@@ -5,11 +5,13 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="331c1fcb439047d6a7957fe9a6fba347" Name="Diagram1">
-        <EntityTypeShape EntityType="StoreDatabaseModel.OrderLineItem" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="StoreDatabaseModel.Order" Width="1.5" PointX="3.375" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StoreDatabaseModel.OrderLineItem" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StoreDatabaseModel.Order" Width="1.875" PointX="3.125" PointY="3" IsExpanded="true" />
         <EntityTypeShape EntityType="StoreDatabaseModel.Product" Width="1.5" PointX="0.75" PointY="0.5" />
         <AssociationConnector Association="StoreDatabaseModel.OrderLineItemOrder" />
         <AssociationConnector Association="StoreDatabaseModel.OrderLineItemProduct" />
+        <EntityTypeShape EntityType="StoreDatabaseModel.ShippingInformation" Width="2.5" PointX="6.75" PointY="2.875" />
+        <AssociationConnector Association="StoreDatabaseModel.OrderShippingInformation" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

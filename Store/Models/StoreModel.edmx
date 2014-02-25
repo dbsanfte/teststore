@@ -4,78 +4,113 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="StoreDatabaseModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="StoreDatabaseModelStoreContainer">
-    <EntitySet Name="OrderLineItems" EntityType="StoreDatabaseModel.Store.OrderLineItems" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Orders" EntityType="StoreDatabaseModel.Store.Orders" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Products" EntityType="StoreDatabaseModel.Store.Products" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="OrderLineItemOrder" Association="StoreDatabaseModel.Store.OrderLineItemOrder">
-      <End Role="OrderLineItem" EntitySet="OrderLineItems" />
-      <End Role="Order" EntitySet="Orders" />
-    </AssociationSet>
-    <AssociationSet Name="OrderLineItemProduct" Association="StoreDatabaseModel.Store.OrderLineItemProduct">
-      <End Role="OrderLineItem" EntitySet="OrderLineItems" />
-      <End Role="Product" EntitySet="Products" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="OrderLineItems">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Quantity" Type="int" Nullable="false" />
-    <Property Name="OrderId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="ProductId" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Orders">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="CustomerId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Date" Type="datetime" Nullable="false" />
-    <Property Name="PaypalInvoiceId" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="ShippingMethod" Type="int" Nullable="true" />
-    <Property Name="ShippingTotal" Type="decimal" Nullable="true" Precision="16" Scale="2" />
-    <Property Name="HSTTotal" Type="decimal" Nullable="true" Precision="16" Scale="2" />
-    <Property Name="OrderTotal" Type="decimal" Nullable="true" Precision="16" Scale="2" />
-  </EntityType>
-  <EntityType Name="Products">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Name" Type="varchar" Nullable="false" MaxLength="100" />
-    <Property Name="Description" Type="varchar(max)" Nullable="true" />
-    <Property Name="Stock" Type="int" Nullable="false" />
-    <Property Name="PhotoUrl" Type="varchar(max)" Nullable="false" />
-    <Property Name="Price" Type="decimal" Nullable="false" Precision="16" Scale="2" />
-  </EntityType>
-  <Association Name="OrderLineItemOrder">
-    <End Role="OrderLineItem" Type="StoreDatabaseModel.Store.OrderLineItems" Multiplicity="*" />
-    <End Role="Order" Type="StoreDatabaseModel.Store.Orders" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Order">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="OrderLineItem">
-        <PropertyRef Name="OrderId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="OrderLineItemProduct">
-    <End Role="OrderLineItem" Type="StoreDatabaseModel.Store.OrderLineItems" Multiplicity="*" />
-    <End Role="Product" Type="StoreDatabaseModel.Store.Products" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Product">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="OrderLineItem">
-        <PropertyRef Name="ProductId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-</Schema></edmx:StorageModels>
+    <Schema Namespace="StoreDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="OrderLineItems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="OrderId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProductId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="PaypalInvoiceId" Type="uniqueidentifier" />
+          <Property Name="ShippingTotal" Type="decimal" Precision="16" Scale="2" />
+          <Property Name="HSTTotal" Type="decimal" Precision="16" Scale="2" />
+          <Property Name="OrderTotal" Type="decimal" Precision="16" Scale="2" />
+          <Property Name="OrderSubtotal" Type="decimal" Precision="16" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Stock" Type="int" Nullable="false" />
+          <Property Name="PhotoUrl" Type="varchar(max)" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="16" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ShippingInformations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ShippingMethod" Type="int" />
+          <Property Name="ShippingAddressFirstLine" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ShippingAddressSecondLine" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ShippingAddressThirdLine" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ShippingCity" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ShippingProvince" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ShippingCountry" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ShippingPostcode" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ShippingName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CustomerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Orders_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_OrderLineItemOrder">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
+          <End Role="OrderLineItems" Type="Self.OrderLineItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderLineItems">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderLineItemProduct">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="OrderLineItems" Type="Self.OrderLineItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderLineItems">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderShippingInformation">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
+          <End Role="ShippingInformations" Type="Self.ShippingInformations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShippingInformations">
+              <PropertyRef Name="Orders_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StoreDatabaseModelStoreContainer">
+          <EntitySet Name="OrderLineItems" EntityType="Self.OrderLineItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShippingInformations" EntityType="Self.ShippingInformations" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_OrderLineItemOrder" Association="Self.FK_OrderLineItemOrder">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderLineItems" EntitySet="OrderLineItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderLineItemProduct" Association="Self.FK_OrderLineItemProduct">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="OrderLineItems" EntitySet="OrderLineItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderShippingInformation" Association="Self.FK_OrderShippingInformation">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="ShippingInformations" EntitySet="ShippingInformations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="StoreDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -98,12 +133,13 @@
           <Property Name="CustomerId" Type="Guid" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="PaypalInvoiceId" Type="Guid" />
-          <Property Name="ShippingMethod" Type="Int32" />
           <Property Name="ShippingTotal" Type="Decimal" Precision="16" Scale="2" />
           <Property Name="HSTTotal" Type="Decimal" Precision="16" Scale="2" />
           <Property Name="OrderTotal" Type="Decimal" Precision="16" Scale="2" />
           <NavigationProperty Name="OrderLineItems" Relationship="StoreDatabaseModel.OrderLineItemOrder" FromRole="Order" ToRole="OrderLineItem" />
-        </EntityType>
+          <NavigationProperty Name="ShippingInformation" Relationship="StoreDatabaseModel.OrderShippingInformation" FromRole="Order" ToRole="ShippingInformation" />
+          <Property Name="OrderSubtotal" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
+          </EntityType>
         <EntityContainer Name="StoreDatabaseEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="OrderLineItems" EntityType="Self.OrderLineItem" />
           <EntitySet Name="Orders" EntityType="Self.Order" />
@@ -115,6 +151,11 @@
           <AssociationSet Name="OrderLineItemProduct" Association="StoreDatabaseModel.OrderLineItemProduct">
             <End Role="OrderLineItem" EntitySet="OrderLineItems" />
             <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <EntitySet Name="ShippingInformations" EntityType="StoreDatabaseModel.ShippingInformation" />
+          <AssociationSet Name="OrderShippingInformation" Association="StoreDatabaseModel.OrderShippingInformation">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="ShippingInformation" EntitySet="ShippingInformations" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Product">
@@ -153,6 +194,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ShippingInformation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShippingMethod" Type="Int32" Nullable="true" />
+          <Property Name="ShippingAddressFirstLine" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ShippingAddressSecondLine" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ShippingAddressThirdLine" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ShippingCity" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ShippingProvince" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ShippingCountry" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ShippingPostcode" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ShippingName" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Orders" Relationship="StoreDatabaseModel.OrderShippingInformation" FromRole="ShippingInformation" ToRole="Order" />
+          <Property Name="CustomerId" Type="Guid" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="OrderShippingInformation">
+          <End Type="StoreDatabaseModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="StoreDatabaseModel.ShippingInformation" Role="ShippingInformation" Multiplicity="0..1" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -176,10 +239,10 @@
           <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="PaypalInvoiceId" ColumnName="PaypalInvoiceId" />
-          <ScalarProperty Name="ShippingMethod" ColumnName="ShippingMethod" />
           <ScalarProperty Name="ShippingTotal" ColumnName="ShippingTotal" />
           <ScalarProperty Name="HSTTotal" ColumnName="HSTTotal" />
           <ScalarProperty Name="OrderTotal" ColumnName="OrderTotal" />
+          <ScalarProperty Name="OrderSubtotal" ColumnName="OrderSubtotal" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -195,6 +258,32 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ShippingInformations">
+      <EntityTypeMapping TypeName="IsTypeOf(StoreDatabaseModel.ShippingInformation)">
+        <MappingFragment StoreEntitySet="ShippingInformations">
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ShippingMethod" ColumnName="ShippingMethod" />
+          <ScalarProperty Name="ShippingAddressFirstLine" ColumnName="ShippingAddressFirstLine" />
+          <ScalarProperty Name="ShippingAddressSecondLine" ColumnName="ShippingAddressSecondLine" />
+          <ScalarProperty Name="ShippingAddressThirdLine" ColumnName="ShippingAddressThirdLine" />
+          <ScalarProperty Name="ShippingCity" ColumnName="ShippingCity" />
+          <ScalarProperty Name="ShippingProvince" ColumnName="ShippingProvince" />
+          <ScalarProperty Name="ShippingCountry" ColumnName="ShippingCountry" />
+          <ScalarProperty Name="ShippingPostcode" ColumnName="ShippingPostcode" />
+          <ScalarProperty Name="ShippingName" ColumnName="ShippingName" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="OrderShippingInformation" TypeName="StoreDatabaseModel.OrderShippingInformation" StoreEntitySet="ShippingInformations">
+      <EndProperty Name="Order">
+        <ScalarProperty Name="Id" ColumnName="Orders_Id" />
+      </EndProperty>
+      <EndProperty Name="ShippingInformation">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
